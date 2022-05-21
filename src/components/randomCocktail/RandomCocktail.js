@@ -1,54 +1,56 @@
 import { Component } from 'react';
+import Spinner from '../spinner/spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 import CocktailService from '../../services/CocktailService';
 import './randomChar.scss';
 
 import cocktail from '../../resources/img/headerCocktail.png';
 
 class RandomChar extends Component{
-    constructor(props) {
-        super(props);
-        this.updateCocktail();
-    }
+    
     state = {
-        strDrink: null,
-        strInstructions: null,
-        strDrinkThumb: null,
-        strIngrigients: null
+        drink: {},
+        loading: true,
+        error: false
     }
     cocktailService = new CocktailService();
 
-    // componentDidMount(){
-    //     this.updateCocktail();
-    // }
-
-    updateCocktail = () => {
-        this.cocktailService
-            .getRandomCocktail()
-            .then(res => {
-                this.setState(res)
-            })
+    componentDidMount(){
+        this.updateDrink();
     }
 
+    onDrinkLoaded = (drink) => {
+        this.setState({
+            drink,
+            loading: false
+        })
+    }
+    onError = () => {
+        this.setState({
+            loading: false,
+            error: true
+        })
+    }
 
+    updateDrink = () => {
+        this.cocktailService
+            .getRandomCocktail()
+            .then(this.onDrinkLoaded)
+            .catch(this.onError)
+    }
+
+    
     render(){
-        const {strDrink, strInstructions, strDrinkThumb, strIngrigients} = this.state;
+        const {drink, loading, error} = this.state;
+
+        const errorMessage = error ? <ErrorMessage/> : null;
+        const spinner = loading ? <Spinner/> : null;
+        const content = !(loading || error) ? <ViewPart drink={drink}/> : null;
         return (
             <div className="randomchar">
-                <div className="randomchar__block">
-                    <img src={strDrinkThumb} alt="Random character" className="randomchar__img"/>
-                    <div className="randomchar__info">
-                        <p className="randomchar__name">{strDrink}</p>
-                        <p className="randomchar__descr">
-                           Instruction: 
-                           {strInstructions}
-                        </p>
-                        <p className="randomchar__descr">
-                            Ingridients: 
-                           {strIngrigients}
-                        </p>
-                        
-                    </div>
-                </div>
+                {errorMessage}
+                {spinner}
+                {content}
                 <div className="randomchar__static">
                     <p className="randomchar__title">
                         Random cocktail for today!<br/>
@@ -57,14 +59,37 @@ class RandomChar extends Component{
                     <p className="randomchar__title">
                         Or choose another one
                     </p>
-                    <button className="button button__main">
+                    <button 
+                        className="button button__main"
+                        onClick={this.updateDrink}>
                         <div className="inner">try it</div>
                     </button>
-                    <img src={cocktail} alt="mjolnir" className="randomchar__decoration"/>
+                    <img src={cocktail} alt="cocktail" className="randomchar__decoration"/>
                 </div>
             </div>
         )
     }
+
+}
+const ViewPart = ({drink}) => {
+    const {strDrink, strDrinkThumb, strInstructions, strIngrigients} = drink;
+    return (
+            <div className="randomchar__block">
+                <img src={strDrinkThumb} alt="Random character" className="randomchar__img"/>
+                <div className="randomchar__info">
+                    <p className="randomchar__name">{strDrink}</p>
+                    <p className="randomchar__descr">
+                       Instruction: 
+                       {strInstructions}
+                    </p>
+                    <p className="randomchar__descr">
+                        Ingridients: 
+                       {strIngrigients}
+                    </p>
+                    
+            </div>
+        </div>
+    )
 }
 
 export default RandomChar;

@@ -9,13 +9,18 @@ class CocktailService {
 
     getRandomCocktail = async () => {
        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-       return this._transformData(res);
+       return this._transformData(res.drinks[0]);
        
     }
+    getAlcoCocktail = async () => {
+        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
+        const res2 = res.drinks.map(this._transformData);
+       return res2.slice(0,9);
+    }
 
-    _transformData = (res) => {
+    _transformData = (drink) => {
         const ingridients = [];
-        const drink = res.drinks[0];
+        
         for (let i = 1; i <= 15; i++) {
             if (!drink['strIngredient'+i]) {
                 break;
@@ -23,6 +28,7 @@ class CocktailService {
             ingridients.push(drink['strIngredient'+i])
         }
         return{
+            id: drink.idDrink,
             strDrink: drink.strDrink,
             strInstructions: drink.strInstructions,
             strDrinkThumb: drink.strDrinkThumb,

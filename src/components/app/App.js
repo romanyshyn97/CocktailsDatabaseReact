@@ -1,6 +1,6 @@
 import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomCocktail/RandomCocktail";
-import CharList from "../charList/CharList";
+import CharList from "../drinkList/DrinkList";
 import CharInfo from "../charInfo/CharInfo";
 
 
