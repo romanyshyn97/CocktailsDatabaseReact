@@ -12,6 +12,11 @@ class CocktailService {
        return this._transformData(res.drinks[0]);
        
     }
+    getCocktailById = async (id) => {
+        const res = await this.getResource(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+        return this._transformData(res.drinks[0]);
+        
+     }
     getAlcoCocktail = async () => {
         const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
         const res2 = res.drinks.map(this._transformData);
@@ -20,6 +25,7 @@ class CocktailService {
 
     _transformData = (drink) => {
         const ingridients = [];
+        const measure = [];
         
         for (let i = 1; i <= 15; i++) {
             if (!drink['strIngredient'+i]) {
@@ -27,12 +33,19 @@ class CocktailService {
             }
             ingridients.push(drink['strIngredient'+i])
         }
+        for (let j = 1; j <= 15; j++) {
+            if (!drink['strMeasure'+j]) {
+                break;
+            }
+            measure.push(drink['strMeasure'+j])
+        }
         return{
-            id: drink.idDrink,
+            idDrink: drink.idDrink,
             strDrink: drink.strDrink,
             strInstructions: drink.strInstructions,
             strDrinkThumb: drink.strDrinkThumb,
-            strIngrigients: ingridients.join(', ')
+            strIngrigients: ingridients.join(', '),
+            strMeasure: measure.join(', ')
         }
     }
         

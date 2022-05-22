@@ -4,9 +4,9 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import CocktailService from '../../services/CocktailService';
 
 import './drinkList.scss';
-import abyss from '../../resources/img/abyss.jpg';
 
-class CharList extends Component{
+
+class DrinkList extends Component{
     state = {
         drinkList: [],
         loading:true,
@@ -40,7 +40,8 @@ class CharList extends Component{
             return(
                 <li 
                     className="char__item"
-                    key={item.id}>
+                    key={item.idDrink}
+                    onClick={() => this.props.onDrinkSelected(item.idDrink)}>
                     <img src={item.strDrinkThumb} alt={item.strDrink}/>
                     <div className="char__name">{item.strDrink}</div>
                 </li>
@@ -74,4 +75,4 @@ class CharList extends Component{
     
 }
 
-export default CharList;
+export default DrinkList;

@@ -8,8 +8,9 @@ import CocktailService from './services/CocktailService'
 
 const cocktailService = new CocktailService();
 
-// cocktailService.getRandomCocktail().then(res => console.log(res));
-cocktailService.getAlcoCocktail().then(res => console.log(res));
+cocktailService.getRandomCocktail().then(res => console.log(res));
+// cocktailService.getAlcoCocktail().then(res => console.log(res));
+cocktailService.getCocktailById(15395).then(res => console.log(res));
 
 const container = document.getElementById('root');
 const root = createRoot(container);

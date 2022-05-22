@@ -73,6 +73,7 @@ class RandomChar extends Component{
 }
 const ViewPart = ({drink}) => {
     const {strDrink, strDrinkThumb, strInstructions, strIngrigients} = drink;
+    const view = (strInstructions.length > 210) ? strInstructions.slice(0,210) + '...' : strInstructions;
     return (
             <div className="randomchar__block">
                 <img src={strDrinkThumb} alt="Random character" className="randomchar__img"/>
@@ -80,7 +81,7 @@ const ViewPart = ({drink}) => {
                     <p className="randomchar__name">{strDrink}</p>
                     <p className="randomchar__descr">
                        Instruction: 
-                       {strInstructions}
+                       {view}
                     </p>
                     <p className="randomchar__descr">
                         Ingridients: 
