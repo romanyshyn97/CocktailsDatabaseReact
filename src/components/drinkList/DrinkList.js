@@ -34,14 +34,33 @@ class DrinkList extends Component{
             error: true
         })
     }
-
+    itemRefs = [];
+    setRef = (ref) => {
+        this.itemRefs.push(ref);
+    }
+    focusOnItem = (id) => {
+        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+        this.itemRefs[id].classList.add('char__item_selected');
+        this.itemRefs[id].focus();
+    }
     renderItems(arr){
-        const items = arr.map((item) => {
+        const items = arr.map((item, i) => {
             return(
                 <li 
                     className="char__item"
+                    tabIndex={0}
+                    ref={this.setRef}
                     key={item.idDrink}
-                    onClick={() => this.props.onDrinkSelected(item.idDrink)}>
+                    onClick={() => {
+                        this.props.onDrinkSelected(item.idDrink);
+                        this.focusOnItem(i);
+                    }}
+                    onKeyPress={(e) => {
+                        if (e.key === ' ' || e.key === "Enter"){
+                            this.props.onDrinkSelected(item.idDrink);
+                            this.focusOnItem(i);
+                        }
+                    }}>
                     <img src={item.strDrinkThumb} alt={item.strDrink}/>
                     <div className="char__name">{item.strDrink}</div>
                 </li>
