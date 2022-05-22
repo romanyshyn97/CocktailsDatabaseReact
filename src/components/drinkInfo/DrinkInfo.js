@@ -96,9 +96,10 @@ const ViewPart = ({drink}) => {
                         ingridients.map((item, i) => {
                         return(
                             <li key={i} className="char__comics-item">
-                                {item}
+                                {item} {':'}
+                                {' '}
                                 {measures[i]}
-                            
+                                <img src={`https://www.thecocktaildb.com/images/ingredients/${item}-Small.png`} alt={item}/> 
                             </li>
                         )
                     })

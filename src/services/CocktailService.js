@@ -18,10 +18,15 @@ class CocktailService {
         
      }
     getAlcoCocktail = async () => {
-        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
+        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic&');
         const res2 = res.drinks.map(this._transformData);
-       return res2.slice(0,9);
+        return res2.slice(0,9);
+        
+      
     }
+    // getIngrImg = async (ingr) => {
+    //     return await this.getResource(`https://www.thecocktaildb.com/images/ingredients/${ingr}-Small.png`)
+    // }
 
     _transformData = (drink) => {
         const ingridients = [];
