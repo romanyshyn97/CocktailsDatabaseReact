@@ -6,7 +6,7 @@ import './randomChar.scss';
 
 import cocktail from '../../resources/img/headerCocktail.png';
 
-class RandomChar extends Component{
+class RandomCocktail extends Component{
     
     state = {
         drink: {},
@@ -93,4 +93,4 @@ const ViewPart = ({drink}) => {
     )
 }
 
-export default RandomChar;
+export default RandomCocktail;

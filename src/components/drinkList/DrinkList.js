@@ -10,23 +10,40 @@ class DrinkList extends Component{
     state = {
         drinkList: [],
         loading:true,
-        error: false
+        error: false,
+        newItemLoading: false,
+        offset: 0
+
 
     }
 
     cocktailService = new CocktailService();
 
     componentDidMount(){
-        this.cocktailService.getAlcoCocktail()
+        this.onRequest();
+    }
+
+    onRequest = (offset) => {
+        this.onDrinkListLoading();
+        this.cocktailService.getAlcoCocktail(offset)
             .then(this.onDrinkListLoaded)
             .catch(this.onError)
     }
 
-    onDrinkListLoaded = (drinkList) => {
+    onDrinkListLoading = () => {
         this.setState({
-            drinkList,
-            loading: false
+            newItemLoading: true
         })
+    }
+
+    onDrinkListLoaded = (newDrinkList) => {
+        this.setState(({drinkList, offset}) => ({
+            drinkList: [...drinkList, ...newDrinkList],
+            loading: false,
+            newItemLoading: false,
+            offset: offset + 9
+
+        }))
     }
     onError = () => {
         this.setState({
@@ -65,7 +82,7 @@ class DrinkList extends Component{
                     <div className="char__name">{item.strDrink}</div>
                 </li>
             )
-        })
+        });
         return(
             <ul className="char__grid">
                 {items}
@@ -74,7 +91,7 @@ class DrinkList extends Component{
     }
 
     render(){
-        const {drinkList, loading, error} = this.state;
+        const {drinkList, loading, error, newItemLoading, offset} = this.state;
         const items = this.renderItems(drinkList);
 
         const errorMessage = error ? <ErrorMessage/> : null;
@@ -85,7 +102,10 @@ class DrinkList extends Component{
                 {errorMessage}
                 {spinner}
                 {content}
-                <button className="button button__main button__long">
+                <button 
+                    className="button button__main button__long"
+                    disabled={newItemLoading}
+                    onClick={() => this.onRequest(offset)}>
                     <div className="inner">load more</div>
                 </button>
             </div>

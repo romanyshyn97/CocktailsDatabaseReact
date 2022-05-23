@@ -1,4 +1,5 @@
 class CocktailService {
+    _baseOffset = 9;
     getResource = async (url) => {
         let res = await fetch(url);
         if(!res.ok){
@@ -17,10 +18,10 @@ class CocktailService {
         return this._transformData(res.drinks[0]);
         
      }
-    getAlcoCocktail = async () => {
-        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic&');
+    getAlcoCocktail = async (offset = this._baseOffset) => {
+        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
         const res2 = res.drinks.map(this._transformData);
-        return res2.slice(0,9);
+        return res2.slice(0, offset);
         
       
     }
