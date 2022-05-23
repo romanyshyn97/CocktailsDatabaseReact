@@ -12,7 +12,8 @@ class DrinkList extends Component{
         loading:true,
         error: false,
         newItemLoading: false,
-        offset: 0
+        offset: 0,
+        endDrink: false
 
 
     }
@@ -37,11 +38,16 @@ class DrinkList extends Component{
     }
 
     onDrinkListLoaded = (newDrinkList) => {
-        this.setState(({drinkList, offset}) => ({
-            drinkList: [...drinkList, ...newDrinkList],
+        let ended = false;
+        if (newDrinkList.length > 90){
+            ended = true;
+        }
+        this.setState(({offset}) => ({
+            drinkList: newDrinkList,
             loading: false,
             newItemLoading: false,
-            offset: offset + 9
+            offset: offset + 9,
+            endDrink: ended
 
         }))
     }
@@ -91,7 +97,7 @@ class DrinkList extends Component{
     }
 
     render(){
-        const {drinkList, loading, error, newItemLoading, offset} = this.state;
+        const {drinkList, loading, error, newItemLoading, offset, endDrink} = this.state;
         const items = this.renderItems(drinkList);
 
         const errorMessage = error ? <ErrorMessage/> : null;
@@ -105,6 +111,7 @@ class DrinkList extends Component{
                 <button 
                     className="button button__main button__long"
                     disabled={newItemLoading}
+                    style={{'display' : endDrink ? 'none' : 'block'}}
                     onClick={() => this.onRequest(offset)}>
                     <div className="inner">load more</div>
                 </button>
