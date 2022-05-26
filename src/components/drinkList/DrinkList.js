@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import CocktailService from '../../services/CocktailService';
@@ -6,82 +6,70 @@ import CocktailService from '../../services/CocktailService';
 import './drinkList.scss';
 
 
-class DrinkList extends Component{
-    state = {
-        drinkList: [],
-        loading:true,
-        error: false,
-        newItemLoading: false,
-        offset: 0,
-        endDrink: false
+const DrinkList = (props) => {
+    const [drinkList, setDrinkList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(0);
+    const [endDrink, setEndDrink] = useState(false);
+    
+    const cocktailService = new CocktailService();
 
+    useEffect(() => {
+        onRequest();
+    }, [])
 
+    const onRequest = (offset) => {
+        onDrinkListLoading();
+        cocktailService.getAlcoCocktail(offset)
+            .then(onDrinkListLoaded)
+            .catch(onError)
     }
 
-    cocktailService = new CocktailService();
-
-    componentDidMount(){
-        this.onRequest();
+    const onDrinkListLoading = () => {
+        setNewItemLoading(true);
     }
 
-    onRequest = (offset) => {
-        this.onDrinkListLoading();
-        this.cocktailService.getAlcoCocktail(offset)
-            .then(this.onDrinkListLoaded)
-            .catch(this.onError)
-    }
-
-    onDrinkListLoading = () => {
-        this.setState({
-            newItemLoading: true
-        })
-    }
-
-    onDrinkListLoaded = (newDrinkList) => {
+    const onDrinkListLoaded = (newDrinkList) => {
         let ended = false;
         if (newDrinkList.length > 90){
             ended = true;
         }
-        this.setState(({offset}) => ({
-            drinkList: newDrinkList,
-            loading: false,
-            newItemLoading: false,
-            offset: offset + 9,
-            endDrink: ended
+        setDrinkList(newDrinkList);
+        setLoading(false);
+        setNewItemLoading(false);
+        setOffset(offset => offset + 9);
+        setEndDrink(ended)
+    }
+    const onError = () => {
+        setError(true);
+        setLoading(false);
+    }
 
-        }))
+    const itemRefs = useRef([]);
+    
+    const focusOnItem = (id) => {
+        itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
+        itemRefs.current[id].classList.add('char__item_selected');
+        itemRefs.current[id].focus();
     }
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true
-        })
-    }
-    itemRefs = [];
-    setRef = (ref) => {
-        this.itemRefs.push(ref);
-    }
-    focusOnItem = (id) => {
-        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
-        this.itemRefs[id].classList.add('char__item_selected');
-        this.itemRefs[id].focus();
-    }
-    renderItems(arr){
+    function renderItems(arr){
         const items = arr.map((item, i) => {
             return(
                 <li 
                     className="char__item"
                     tabIndex={0}
-                    ref={this.setRef}
+                    ref={el => itemRefs.current[i] = el}
                     key={item.idDrink}
                     onClick={() => {
-                        this.props.onDrinkSelected(item.idDrink);
-                        this.focusOnItem(i);
+                        props.onDrinkSelected(item.idDrink);
+                        focusOnItem(i);
                     }}
                     onKeyPress={(e) => {
                         if (e.key === ' ' || e.key === "Enter"){
-                            this.props.onDrinkSelected(item.idDrink);
-                            this.focusOnItem(i);
+                            props.onDrinkSelected(item.idDrink);
+                            focusOnItem(i);
                         }
                     }}>
                     <img src={item.strDrinkThumb} alt={item.strDrink}/>
@@ -96,29 +84,27 @@ class DrinkList extends Component{
         )
     }
 
-    render(){
-        const {drinkList, loading, error, newItemLoading, offset, endDrink} = this.state;
-        const items = this.renderItems(drinkList);
+    const items = renderItems(drinkList);
 
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? items: null;
-        return (
-            <div className="char__list">
-                {errorMessage}
-                {spinner}
-                {content}
-                <button 
-                    className="button button__main button__long"
-                    disabled={newItemLoading}
-                    style={{'display' : endDrink ? 'none' : 'block'}}
-                    onClick={() => this.onRequest(offset)}>
-                    <div className="inner">load more</div>
-                </button>
-            </div>
-        )
-    }
-    
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading ? <Spinner/> : null;
+    const content = !(loading || error) ? items: null;
+    return (
+        <div className="char__list">
+            {errorMessage}
+            {spinner}
+            {content}
+            <button 
+                className="button button__main button__long"
+                disabled={newItemLoading}
+                style={{'display' : endDrink ? 'none' : 'block'}}
+                onClick={() => onRequest(offset)}>
+                <div className="inner">load more</div>
+            </button>
+        </div>
+    )
 }
+    
+
 
 export default DrinkList;

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
@@ -7,70 +7,54 @@ import CocktailService from '../../services/CocktailService';
 import './drinkInfo.scss';
 
 
-class DrinkInfo extends Component{
-    state = {
-        drink: null,
-        loading: false,
-        error: false
-    }
-    cocktailService = new CocktailService();
+const DrinkInfo = (props) => {
+    const [drink, setDrink] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    
+    const cocktailService = new CocktailService();
 
-    componentDidMount(){
-        this.updateDrink();
-    }
-    componentDidUpdate(prevProps){
-        if(this.props.drinkId !== prevProps.drinkId){
-            this.updateDrink();
-        }
-    }
-    updateDrink = () => {
-        const {drinkId} = this.props;
+    useEffect(() => {
+        updateDrink();
+    },[props.drinkId])
+    
+    const updateDrink = () => {
+        const {drinkId} = props;
         if (!drinkId){
             return;
         }
-        this.onDrinkLoading();
-        this.cocktailService
-            .getCocktailById(drinkId)
-            .then(this.onDrinkLoaded)
-            .catch(this.onError)
+        onDrinkLoading();
+        cocktailService.getCocktailById(drinkId)
+            .then(onDrinkLoaded)
+            .catch(onError)
     }
 
-    onDrinkLoaded = (drink) => {
-        this.setState({
-            drink,
-            loading: false
-        })
+    const onDrinkLoaded = (drink) => {
+        setDrink(drink);
+        setLoading(false);
     }
-    onDrinkLoading = () => {
-        this.setState({
-            loading: true
-        })
+    const onDrinkLoading = () => {
+        setLoading(true);
     }
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true
-        })
+    const onError = () => {
+        setError(true);
+        setLoading(false);
     }
+
+    const skeleton = drink || loading || error ? null : <Skeleton/>;
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading ? <Spinner/> : null;
+    const content = !(loading || error || !drink) ? <ViewPart drink={drink}/> : null;
+
+    return (
+        <div className="char__info">
+            {skeleton}
+            {errorMessage}
+            {spinner}
+            {content}
+        </div>
+    )
     
-
-    render(){
-        const {drink, loading, error} = this.state;
-
-        const skeleton = drink || loading || error ? null : <Skeleton/>;
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error || !drink) ? <ViewPart drink={drink}/> : null;
-
-        return (
-            <div className="char__info">
-                {skeleton}
-                {errorMessage}
-                {spinner}
-                {content}
-            </div>
-        )
-    }
     
 }
 

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import CocktailService from '../../services/CocktailService';
@@ -6,69 +6,63 @@ import './randomChar.scss';
 
 import cocktail from '../../resources/img/headerCocktail.png';
 
-class RandomCocktail extends Component{
+const RandomCocktail = () => {
+    const [drink, setDrink] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     
-    state = {
-        drink: {},
-        loading: true,
-        error: false
-    }
-    cocktailService = new CocktailService();
+    const cocktailService = new CocktailService();
 
-    componentDidMount(){
-        this.updateDrink();
-    }
-
-    onDrinkLoaded = (drink) => {
-        this.setState({
-            drink,
-            loading: false
-        })
-    }
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true
-        })
-    }
-
-    updateDrink = () => {
-        this.cocktailService
-            .getRandomCocktail()
-            .then(this.onDrinkLoaded)
-            .catch(this.onError)
-    }
-
+    useEffect(() => {
+        updateDrink();
+    }, [])
     
-    render(){
-        const {drink, loading, error} = this.state;
 
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? <ViewPart drink={drink}/> : null;
-        return (
-            <div className="randomchar">
-                {errorMessage}
-                {spinner}
-                {content}
-                <div className="randomchar__static">
-                    <p className="randomchar__title">
-                        Random cocktail for today!<br/>
-                        Do you want to know ingridients?
-                    </p>
-                    <p className="randomchar__title">
-                        Or choose another one
-                    </p>
-                    <button 
-                        className="button button__main"
-                        onClick={this.updateDrink}>
-                        <div className="inner">try it</div>
-                    </button>
-                    <img src={cocktail} alt="cocktail" className="randomchar__decoration"/>
-                </div>
+    const onDrinkLoaded = (drink) => {
+        setDrink(drink);
+        setLoading(false);
+    }
+    const onDrinkLoading = () => {
+        setLoading(true);
+    }
+    const onError = () => {
+        setError(true);
+        setLoading(false);
+    }
+
+    const updateDrink = () => {
+        onDrinkLoading();
+        cocktailService.getRandomCocktail()
+            .then(onDrinkLoaded)
+            .catch(onError)
+    }
+
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading ? <Spinner/> : null;
+    const content = !(loading || error) ? <ViewPart drink={drink}/> : null;
+    return (
+        <div className="randomchar">
+            {errorMessage}
+            {spinner}
+            {content}
+            <div className="randomchar__static">
+                <p className="randomchar__title">
+                    Random cocktail for today!<br/>
+                    Do you want to know ingridients?
+                </p>
+                <p className="randomchar__title">
+                    Or choose another one
+                </p>
+                <button 
+                    className="button button__main"
+                    onClick={updateDrink}>
+                    <div className="inner">try it</div>
+                </button>
+                <img src={cocktail} alt="cocktail" className="randomchar__decoration"/>
             </div>
-        )
-    }
+        </div>
+    )
+    
 
 }
 const ViewPart = ({drink}) => {

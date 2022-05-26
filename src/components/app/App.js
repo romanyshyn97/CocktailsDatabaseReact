@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 
 import AppHeader from "../appHeader/AppHeader";
 import RandomCocktail from "../randomCocktail/RandomCocktail";
@@ -12,17 +12,14 @@ import decoration from '../../resources/img/decoration.png';
 
 
 
-class App extends Component {
-    state = {
-        selectedDrink: null
-    }
+const App = () => {
+    const [selectedDrink, setDrink] = useState(null);
+    
 
-    onDrinkSelected = (id) => {
-        this.setState({
-            selectedDrink: id
-        })
+    const onDrinkSelected = (id) => {
+        setDrink(id);
     }
-    render(){
+   
         return (
             <div className="app">
                 <AppHeader/>
@@ -32,10 +29,10 @@ class App extends Component {
                     </ErrorBoundary>
                     <div className="char__content">
                         <ErrorBoundary>
-                            <DrinkList onDrinkSelected={this.onDrinkSelected}/>
+                            <DrinkList onDrinkSelected={onDrinkSelected}/>
                         </ErrorBoundary>
                         <ErrorBoundary>
-                            <DrinkInfo drinkId={this.state.selectedDrink}/>
+                            <DrinkInfo drinkId={selectedDrink}/>
                         </ErrorBoundary>
                     </div>
                     <img className="bg-decoration" src={decoration} alt="vision"/>
@@ -44,6 +41,6 @@ class App extends Component {
         )
     }
     
-}
+
 
 export default App;
