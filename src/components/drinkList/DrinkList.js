@@ -1,35 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import CocktailService from '../../services/CocktailService';
+import useCocktailService from '../../services/CocktailService';
 
 import './drinkList.scss';
 
 
 const DrinkList = (props) => {
     const [drinkList, setDrinkList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(0);
+    const [offset, setOffset] = useState(9);
     const [endDrink, setEndDrink] = useState(false);
     
-    const cocktailService = new CocktailService();
+    const {loading, error, getAlcoCocktail} = useCocktailService();
 
     useEffect(() => {
-        onRequest();
+        onRequest(offset, true);
     }, [])
 
-    const onRequest = (offset) => {
-        onDrinkListLoading();
-        cocktailService.getAlcoCocktail(offset)
+    const onRequest = (offset, initial) => {
+        initial ? setNewItemLoading(false) :  setNewItemLoading(true);
+        getAlcoCocktail(offset)
             .then(onDrinkListLoaded)
-            .catch(onError)
+            
     }
 
-    const onDrinkListLoading = () => {
-        setNewItemLoading(true);
-    }
+    
 
     const onDrinkListLoaded = (newDrinkList) => {
         let ended = false;
@@ -37,15 +33,11 @@ const DrinkList = (props) => {
             ended = true;
         }
         setDrinkList(newDrinkList);
-        setLoading(false);
         setNewItemLoading(false);
         setOffset(offset => offset + 9);
         setEndDrink(ended)
     }
-    const onError = () => {
-        setError(true);
-        setLoading(false);
-    }
+   
 
     const itemRefs = useRef([]);
     
@@ -87,13 +79,13 @@ const DrinkList = (props) => {
     const items = renderItems(drinkList);
 
     const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> : null;
-    const content = !(loading || error) ? items: null;
+    const spinner = loading && !newItemLoading ? <Spinner/> : null;
+    
     return (
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {content}
+            {items}
             <button 
                 className="button button__main button__long"
                 disabled={newItemLoading}

@@ -2,17 +2,14 @@ import { useState, useEffect } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
-import CocktailService from '../../services/CocktailService';
+import useCocktailService from '../../services/CocktailService';
 
 import './drinkInfo.scss';
 
 
 const DrinkInfo = (props) => {
     const [drink, setDrink] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-    
-    const cocktailService = new CocktailService();
+    const {loading, error, getCocktailById } = useCocktailService();
 
     useEffect(() => {
         updateDrink();
@@ -23,23 +20,15 @@ const DrinkInfo = (props) => {
         if (!drinkId){
             return;
         }
-        onDrinkLoading();
-        cocktailService.getCocktailById(drinkId)
+        getCocktailById(drinkId)
             .then(onDrinkLoaded)
-            .catch(onError)
+            
     }
-
     const onDrinkLoaded = (drink) => {
         setDrink(drink);
-        setLoading(false);
+       
     }
-    const onDrinkLoading = () => {
-        setLoading(true);
-    }
-    const onError = () => {
-        setError(true);
-        setLoading(false);
-    }
+   
 
     const skeleton = drink || loading || error ? null : <Skeleton/>;
     const errorMessage = error ? <ErrorMessage/> : null;

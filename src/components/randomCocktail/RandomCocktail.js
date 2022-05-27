@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import CocktailService from '../../services/CocktailService';
+import useCocktailService from '../../services/CocktailService';
 import './randomChar.scss';
 
 import cocktail from '../../resources/img/headerCocktail.png';
 
 const RandomCocktail = () => {
-    const [drink, setDrink] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    
-    const cocktailService = new CocktailService();
+    const [drink, setDrink] = useState(null);
+    const {loading, error, clearError, getRandomCocktail} =  useCocktailService();
 
     useEffect(() => {
         updateDrink();
@@ -20,26 +17,19 @@ const RandomCocktail = () => {
 
     const onDrinkLoaded = (drink) => {
         setDrink(drink);
-        setLoading(false);
-    }
-    const onDrinkLoading = () => {
-        setLoading(true);
-    }
-    const onError = () => {
-        setError(true);
-        setLoading(false);
     }
 
+
     const updateDrink = () => {
-        onDrinkLoading();
-        cocktailService.getRandomCocktail()
+        clearError();
+        getRandomCocktail()
             .then(onDrinkLoaded)
-            .catch(onError)
+            
     }
 
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : null;
-    const content = !(loading || error) ? <ViewPart drink={drink}/> : null;
+    const content = !(loading || error || !drink) ? <ViewPart drink={drink}/> : null;
     return (
         <div className="randomchar">
             {errorMessage}

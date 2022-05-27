@@ -1,26 +1,22 @@
-class CocktailService {
-  
-    getResource = async (url) => {
-        let res = await fetch(url);
-        if(!res.ok){
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
-        return await res.json();
-    }
+import { useHttp } from '../hooks/http.hook';
 
-    getRandomCocktail = async () => {
-       const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-       return this._transformData(res.drinks[0]);
+const useCocktailService = () => {
+    const {loading, error, clearError, request} = useHttp();
+    
+
+    const getRandomCocktail = async () => {
+       const res = await request('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+       return _transformData(res.drinks[0]);
        
     }
-    getCocktailById = async (id) => {
-        const res = await this.getResource(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-        return this._transformData(res.drinks[0]);
+    const getCocktailById = async (id) => {
+        const res = await request(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+        return _transformData(res.drinks[0]);
         
      }
-    getAlcoCocktail = async (offset = 9) => {
-        const res = await this.getResource('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
-        const res2 = res.drinks.map(this._transformData);
+    const getAlcoCocktail = async (offset = 9) => {
+        const res = await request('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
+        const res2 = res.drinks.map(_transformData);
         return res2.slice(0, offset);
         
       
@@ -29,7 +25,7 @@ class CocktailService {
     //     return await this.getResource(`https://www.thecocktaildb.com/images/ingredients/${ingr}-Small.png`)
     // }
 
-    _transformData = (drink) => {
+    const _transformData = (drink) => {
         const ingridients = [];
         const measure = [];
         
@@ -55,7 +51,7 @@ class CocktailService {
         }
     }
         
-    
+    return {loading, error, clearError, getAlcoCocktail, getCocktailById, getRandomCocktail}
 }
 
-export default CocktailService;
+export default useCocktailService;
