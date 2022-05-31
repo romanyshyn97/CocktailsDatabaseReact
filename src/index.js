@@ -4,9 +4,11 @@ import { createRoot } from 'react-dom/client';
 
 import App from './components/app/App';
 import './style/style.scss';
-// import CocktailService from './services/CocktailService'
+// import useCocktailService from './services/CocktailService'
 
-// const cocktailService = new CocktailService();
+// const {getIngridientById} = useCocktailService();
+
+// getIngridientById().then(res => console.log(res));
 
 // cocktailService.getRandomCocktail().then(res => console.log(res));
 // cocktailService.getAlcoCocktail().then(res => console.log(res));

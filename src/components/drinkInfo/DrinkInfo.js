@@ -9,10 +9,16 @@ import './drinkInfo.scss';
 
 const DrinkInfo = (props) => {
     const [drink, setDrink] = useState(null);
-    const {loading, error, getCocktailById } = useCocktailService();
+    const {loading, error, getCocktailById, getIngredientById, getAllIngredients} = useCocktailService();
+
+  
+
+    
 
     useEffect(() => {
         updateDrink();
+        getIngredientById().then(res => console.log(res));
+        getAllIngredients().then(res => console.log(res));
     },[props.drinkId])
     
     const updateDrink = () => {
@@ -48,8 +54,8 @@ const DrinkInfo = (props) => {
 }
 
 const ViewPart = ({drink}) => {
-    const {strDrink, strDrinkThumb, strInstructions, strIngrigients, strMeasure} = drink;
-    const ingridients = strIngrigients.split(", ");
+    const {strDrink, strDrinkThumb, strInstructions, strIngridients, strMeasure} = drink;
+    const ingridients = strIngridients.split(", ");
     const measures = strMeasure.split(", ");
     
     return(
