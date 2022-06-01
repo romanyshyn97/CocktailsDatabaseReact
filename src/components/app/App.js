@@ -1,7 +1,7 @@
 
 import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
 
-import {MainPage, IngredientsPage} from '../pages';
+import {MainPage, IngredientsPage, Page404, SingleIngredientPage} from '../pages';
 import AppHeader from "../appHeader/AppHeader";
 
 
@@ -25,6 +25,9 @@ const App = () => {
                         <Routes>
                             <Route path="/" element={<MainPage/>}/>
                             <Route path="/ingredients" element={<IngredientsPage/>}/>
+                            <Route path="/ingredients/:name" element={<SingleIngredientPage/>}/>
+                            <Route path='*' element={<Page404/>}/>
+
                         </Routes>
                     </main>
                 </div>

@@ -56,7 +56,7 @@ const RandomCocktail = () => {
 
 }
 const ViewPart = ({drink}) => {
-    const {strDrink, strDrinkThumb, strInstructions, strIngrigients} = drink;
+    const {strDrink, strDrinkThumb, strInstructions, strIngridients} = drink;
     const view = (strInstructions.length > 210) ? strInstructions.slice(0,210) + '...' : strInstructions;
     return (
             <div className="randomchar__block">
@@ -69,7 +69,7 @@ const ViewPart = ({drink}) => {
                     </p>
                     <p className="randomchar__descr">
                         Ingridients: 
-                       {strIngrigients}
+                       {strIngridients}
                     </p>
                     
             </div>

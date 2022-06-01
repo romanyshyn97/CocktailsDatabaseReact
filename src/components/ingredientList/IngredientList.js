@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import useCocktailService from "../../services/CocktailService";
 import Spinner from "../spinner/spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -8,22 +9,30 @@ import './ingredientList.scss';
 const IngredientList = () => {
     const [ingrList, setIngrList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(12);
+    const [listEnd, setListEnd] = useState(false);
     
     const {loading, error, getAllIngredients} = useCocktailService();
 
     useEffect(() => {
-        onRequest(true);
+        onRequest(offset, true);
     }, [])
 
-    const onRequest = (initial) => {
+    const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
-        getAllIngredients()
+        getAllIngredients(offset)
             .then(onIngrLoaded)
     }
     
     const onIngrLoaded = (newIngrList) => {
+        let ended = false;
+        if(newIngrList.length > 99){
+            ended = true;
+        }
         setIngrList(newIngrList);
         setNewItemLoading(false);
+        setOffset(offset + 12);
+        setListEnd(ended);
 
     }
 
@@ -31,11 +40,11 @@ const IngredientList = () => {
         const items = arr.map((item, i) => {
             return(
                 <li className="ingredients__item" key={i}>
-                    <a href="#">
+                    <Link to={`/ingredients/${item.strIngredient}`}>
                         <img src={`https://www.thecocktaildb.com/images/ingredients/${item.strIngredient}-Medium.png`} alt={item.strIngredient} className="ingredients__item-img"/>
                         <div className="ingredients__item-name">{item.strIngredient}</div>
                         
-                    </a>
+                    </Link>
                 </li>
             )
         })
@@ -57,10 +66,10 @@ const IngredientList = () => {
             {spinner}
             {items}
             <button 
-                // disabled={newItemLoading} 
-                // style={{'display' : comicsEnded ? 'none' : 'block'}}
+                disabled={newItemLoading} 
+                style={{'display' : listEnd ? 'none' : 'block'}}
                 className="button button__main button__long"
-                onClick={() => onRequest()}>
+                onClick={() => onRequest(offset)}>
                 <div className="inner">load more</div>
             </button>
         </div>
