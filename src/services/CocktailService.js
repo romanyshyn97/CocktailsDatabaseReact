@@ -14,10 +14,10 @@ const useCocktailService = () => {
         return _transformData(res.drinks[0]);
         
      }
-    const getAlcoCocktail = async (offset = 9) => {
+    const getAlcoCocktail = async () => {
         const res = await request('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
-        const res2 = res.drinks.map(_transformData);
-        return res2.slice(0, offset);
+        return res.drinks;
+        // return res2.slice(0, offset);
     }
     const getAllIngredients = async (offset = 12) => {
         const res = await request(`https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list`);
@@ -29,6 +29,11 @@ const useCocktailService = () => {
         const res = await request(`https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${name}`);
         return _transformIngredient(res.ingredients[0]);
     }
+    const getCocktailByIngredient = async(ingr) => {
+        const res = await request(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingr}`) ;
+        return res.drinks.map(_transformData); 
+    }
+
     
 
     const _transformData = (drink) => {
@@ -73,7 +78,7 @@ const useCocktailService = () => {
         }
     }
         
-    return {loading, error, clearError, getAlcoCocktail, getCocktailById, getRandomCocktail, getAllIngredients, getIngredientByName}
+    return {loading, error, clearError, getAlcoCocktail, getCocktailById, getRandomCocktail, getAllIngredients, getIngredientByName, getCocktailByIngredient}
 }
 
 export default useCocktailService;

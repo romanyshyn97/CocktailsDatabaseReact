@@ -9,7 +9,7 @@ import './drinkInfo.scss';
 
 const DrinkInfo = (props) => {
     const [drink, setDrink] = useState(null);
-    const {loading, error, getCocktailById, getAllIngredients, getIngredientByName} = useCocktailService();
+    const {loading, error, getCocktailById, getAlcoCocktail, getCocktailByIngredient} = useCocktailService();
 
   
 
@@ -19,7 +19,9 @@ const DrinkInfo = (props) => {
         updateDrink();
         
         // getAllIngredients().then(res => console.log(res));
-        getIngredientByName('Gin').then(res => console.log(res));
+        // getIngredientByName('Gin').then(res => console.log(res));
+        
+        getAlcoCocktail().then(res => console.log(res));
     },[props.drinkId])
     
     const updateDrink = () => {

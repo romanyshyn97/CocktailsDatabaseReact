@@ -5,15 +5,6 @@ import {MainPage, IngredientsPage, Page404, SingleIngredientPage} from '../pages
 import AppHeader from "../appHeader/AppHeader";
 
 
-
-
-
-
-
-
-
-
-
 const App = () => {
    
    
