@@ -116,15 +116,15 @@ const DrinkList = (props) => {
   const [drinksPerPage] = useState(6);
 
   const {getAlcoCocktail} = useCocktailService();
-
+  
   useEffect(() => {
     onRequest();
-  }, []);
+  }, [props.filter]);
   const onRequest = () => {
         if(loading) {
             return <Spinner/>
         }
-        getAlcoCocktail()
+        getAlcoCocktail(props.filter)
             .then(onDrinkListLoaded)
         }
 

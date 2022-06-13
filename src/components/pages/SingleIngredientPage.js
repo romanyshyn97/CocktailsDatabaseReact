@@ -6,6 +6,8 @@ import useCocktailService from '../../services/CocktailService';
 import './singleIngredient.scss';
 
 
+
+
 const SingleIngredientPage = () => {
     const {name} = useParams();
     const [ingr, setIngr] = useState(null);
@@ -25,7 +27,7 @@ const SingleIngredientPage = () => {
     }
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : null;
-    const content = !(loading || error || !ingr) ? <ViewPart ingr={ingr}/> : null;
+    const content = !(loading || error || !ingr) ? <ViewPart ingr={ingr} name={name}/> : null;
     return (
         <>
             {errorMessage}
@@ -36,7 +38,7 @@ const SingleIngredientPage = () => {
     )
 }
 
-const ViewPart = ({ingr}) => {
+const ViewPart = ({ingr, name}) => {
     const {strAlcohol, strIngredient, strType, strDescription} = ingr;
     
     return(
@@ -45,11 +47,19 @@ const ViewPart = ({ingr}) => {
             <div className="single-ingr__info">
                 <h2 className="single-ingr__name">{strIngredient}</h2>
                 <p className="single-ingr__descr">{strDescription}</p>
-                <p className="single-ingr__descr">Type of drink: {strType}</p>
-                <p className="single-ingr__descr">Alcoholic: {strAlcohol}</p>
+                
+                
                 
             </div>
-            <Link to="/ingredients" className="single-ingr__back">Back to all</Link>
+            <ul>
+                <li><Link to="/ingredients" className="single-ingr__back butt">Back to all</Link></li> --------------------
+                <li><Link to={`/ingredients/${name}/drinks`} className="single-ingr__back butt">Look cocktails</Link></li>
+                <li><p className="single-ingr__descr"><span>Type of drink:</span>{strType}</p> </li>
+                <li><p className="single-ingr__descr"><span>Alcoholic:</span> {strAlcohol}</p></li>
+            </ul>
+            
+            
+            
         </div>
     )
 }

@@ -1,3 +1,5 @@
+@import '../../style/variables.scss';
+
 .ingredients {
     &__list {
         margin-top: 45px;
@@ -6,14 +8,17 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, 250px);
         justify-content: space-between;
+        color: $light;
         row-gap: 55px;
     }
     &__item {
         transition: 0.3s transform;
+        border: 3px solid transparent;
         &-img {
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
             width: 250px;
             height: 250px;
+            
             
         }
         &-name {
@@ -25,7 +30,18 @@
         }
         
         &:hover {
+            transition: all 0.5s;
             transform: translateY(-5px);
+            color: $main-color;
+            border-bottom: 3px solid $pink;
+            
         }
+    }
+}
+.button-load{
+    margin: 0 auto;
+    background-color: $main-color;
+    &:hover{
+        background-color: $pink;
     }
 }

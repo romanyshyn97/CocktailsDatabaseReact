@@ -1,12 +1,26 @@
 @import './variables';
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
 @import './button';
+@font-face {
+    font-family: 'Franchise Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Franchise Bold'), url('../resources/Franchise-Bold-hinted.woff') format('woff');
+    }
+
 
 * {
-    font-family: "Roboto Condensed", sans-serif;
+    font-family: 'Franchise Bold';
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    
+ 
+    
+}
+body{
+    background-image: url('../resources/img/bg.png');
 }
 
 ul,
@@ -50,8 +64,9 @@ input::-webkit-inner-spin-button {
 .app {
     width: 1100px;
     margin: 0 auto;
-    padding: 50px 0 50px 0;
+    padding: 0 0 50px 0;
     position: relative;
+    
     .bg-decoration {
         position: absolute;
         right: -174px;
@@ -63,6 +78,8 @@ input::-webkit-inner-spin-button {
 main {
     margin-top: 50px;
     position: relative;
+    
+   
 }
 
 .pulse {

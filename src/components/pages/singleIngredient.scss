@@ -3,20 +3,23 @@
 .single-ingr {
     margin-top: 50px;
     display: grid;
-    grid-template-columns: 293px 550px auto;
+    grid-template-columns: 250px 550px 150px auto;
     column-gap: 50px;
+    color: $light;
     align-items: start;
     &__img {
         width: 350px;
         height: 350px;
+        filter: drop-shadow(0px 0px 20px $pink);
     }
     &__name {
         font-weight: bold;
-        font-size: 22px;
+        color: $main-color;
+        font-size: 48px;
         line-height: 29px;
     }
     &__descr {
-        font-size: 18px;
+        font-size: 22px;
         line-height: 24px;
         margin-top: 25px;
     }
@@ -28,12 +31,17 @@
         margin-top: 25px;
     }
     &__back {
-        justify-self: end;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 24px;
+        color: $main-color;
+        border: none;
+        
         &:hover {
-            color: $main-color;
+            color: $dark;
         }
+    }
+    span{
+        color: $pink;
+        font-size: 28px;
+        padding-right: 15px;
+        
     }
 }

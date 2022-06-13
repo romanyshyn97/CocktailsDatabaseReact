@@ -4,10 +4,12 @@
     &__header {
         display: flex;
         justify-content: space-between;
+        font-size: 40px;
+        color: $light;
     }
     &__title {
         font-weight: bold;
-        font-size: 28px;
+       
         line-height: 37px;
         span {
             color: $main-color;
@@ -18,13 +20,13 @@
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 24px;
+
             line-height: 32px;
-            li {
-                margin: 0 8px;
-                a:hover {
-                    color: $main-color;
-                }
+            li:hover {
+                
+            
+                color: $main-color;
+                
             }
         }
     }

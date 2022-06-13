@@ -4,17 +4,21 @@
     &__banner {
         width: 100%;
         background-color: $dark;
+        
         height: 150px;
         padding: 0 25px 0 45px;
         display: grid;
         grid-template-columns: 152px auto 133px;
         &-text {
             font-weight: bold;
-            font-size: 32px;
+            font-size: 40px;
             line-height: 40px;
-            color: #FFFFFF;
+            color: $pink;
             padding-left: 83px;
             padding-top: 18px;
+            span{
+                color: $main-color;
+            }
             
         }
     }

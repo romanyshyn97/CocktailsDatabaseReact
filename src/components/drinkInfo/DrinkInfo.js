@@ -3,13 +3,14 @@ import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 import useCocktailService from '../../services/CocktailService';
+import { NavLink } from 'react-router-dom';
 
 import './drinkInfo.scss';
 
 
 const DrinkInfo = (props) => {
     const [drink, setDrink] = useState(null);
-    const {loading, error, getCocktailById, getAlcoCocktail, getCocktailByIngredient} = useCocktailService();
+    const {loading, error, getCocktailById} = useCocktailService();
 
   
 
@@ -17,11 +18,6 @@ const DrinkInfo = (props) => {
 
     useEffect(() => {
         updateDrink();
-        
-        // getAllIngredients().then(res => console.log(res));
-        // getIngredientByName('Gin').then(res => console.log(res));
-        
-        getAlcoCocktail().then(res => console.log(res));
     },[props.drinkId])
     
     const updateDrink = () => {
@@ -45,7 +41,7 @@ const DrinkInfo = (props) => {
     const content = !(loading || error || !drink) ? <ViewPart drink={drink}/> : null;
 
     return (
-        <div className="char__info">
+        <div className="drink__info">
             {skeleton}
             {errorMessage}
             {spinner}
@@ -57,32 +53,32 @@ const DrinkInfo = (props) => {
 }
 
 const ViewPart = ({drink}) => {
-    const {strDrink, strDrinkThumb, strInstructions, strIngridients, strMeasure} = drink;
-    const ingridients = strIngridients.split(", ");
+    const {strDrink, strDrinkThumb, strInstructions, strIngredients, strMeasure} = drink;
+    const ingredients = strIngredients.split(", ");
     const measures = strMeasure.split(", ");
     
     return(
         <>
-            <div className="char__basics">
-                <img src={strDrinkThumb} alt="abyss"/>
-                <div className="char__info-name">{strDrink}</div>
+            <div className="drink__basics">
+                <img src={strDrinkThumb} alt={strDrink}/>
+                <div className="drink__info-name">{strDrink}</div>
             </div>
-            <div className="char__descr">
+            <div className="drink__descr">
                 {strInstructions}
             </div>
-             <div className="char__comics">                 
-                Ingridients: 
+             <div className="drink__ingredient">                 
+                Ingredients: 
              </div>
-                <ul className="char__comics-list">
+                <ul className="drink__ingredient-list">
                     {
-                        ingridients.map((item, i) => {
+                        ingredients.map((item, i) => {
                         return(
-                            <li key={i} className="char__comics-item">
+                            <NavLink to={`/ingredients/${item}`} key={i} className="drink__ingredient-item">
                                 {item} {':'}
                                 {' '}
                                 {measures[i]}
                                 <img src={`https://www.thecocktaildb.com/images/ingredients/${item}-Small.png`} alt={item}/> 
-                            </li>
+                            </NavLink>
                         )
                     })
                     }

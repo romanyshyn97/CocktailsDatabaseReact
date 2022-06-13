@@ -7,8 +7,8 @@ const AppBanner = () => {
         <div className="app__banner">
             <img src={cocktails} alt="Avengers"/>
             <div className="app__banner-text">
-                Сhoose your <br/>
-                favorite ingredient
+                <span>Choose your </span><br/>
+                FAVORITE INGREDIENT
             </div>
             <img src={cocktailLogo} alt="Avengers logo"/>
         </div>

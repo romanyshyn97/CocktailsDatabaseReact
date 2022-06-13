@@ -5,11 +5,12 @@ import Spinner from "../spinner/spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import './ingredientList.scss';
+import '../../style/button.scss';
 
 const IngredientList = () => {
     const [ingrList, setIngrList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(12);
+    const [offset, setOffset] = useState(8);
     const [listEnd, setListEnd] = useState(false);
     
     const {loading, error, getAllIngredients} = useCocktailService();
@@ -31,7 +32,7 @@ const IngredientList = () => {
         }
         setIngrList(newIngrList);
         setNewItemLoading(false);
-        setOffset(offset + 12);
+        setOffset(offset + 8);
         setListEnd(ended);
 
     }
@@ -68,9 +69,9 @@ const IngredientList = () => {
             <button 
                 disabled={newItemLoading} 
                 style={{'display' : listEnd ? 'none' : 'block'}}
-                className="button button__main button__long"
+                className="butt button-load"
                 onClick={() => onRequest(offset)}>
-                <div className="inner">load more</div>
+                load more
             </button>
         </div>
     )

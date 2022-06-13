@@ -1,9 +1,14 @@
 import { Link, NavLink } from 'react-router-dom';
 import './appHeader.scss';
-
+import title from '../../resources/img/Title.png'
 
 const AppHeader = () => {
     return (
+        <>
+        <Link to="/" style={{margin: "0 auto", display: 'block'}}>
+            <img src={title} alt="" style={{margin: "0 auto", display: 'block'}} />
+        </Link>
+            
         <header className="app__header">
             <h1 className="app__title">
                 <Link to="/">
@@ -21,6 +26,7 @@ const AppHeader = () => {
                 </ul>
             </nav>
         </header>
+        </>
     )
 }
 

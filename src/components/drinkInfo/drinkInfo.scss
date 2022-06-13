@@ -1,15 +1,17 @@
 @import '../../style/variables.scss';
 
-.char {
+.drink {
     &__info {
         padding: 25px;
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
         position: relative;
         z-index: 5;
-        background-color: #fff;
+        background-color: $light;
+        // background-image: url('../../resources/img/bg-light.png');
+        // background-size: cover;
         &-name {
             font-weight: bold;
-            font-size: 22px;
+            font-size: 32px;
             line-height: 29px;
             text-transform: uppercase;
         }
@@ -35,12 +37,12 @@
     }
     &__descr {
         margin-top: 15px;
-        font-size: 14px;
+        font-size: 22px;
         line-height: 18px;
     }
-    &__comics {
+    &__ingredient {
         font-weight: bold;
-        font-size: 18px;
+        font-size: 22px;
         line-height: 24px;
         margin-top: 10px;
         &-list {
@@ -50,12 +52,28 @@
         &-item {
             width: 100%;
             padding: 0px 10px;
+            font-size: 20px;
             line-height: 25px;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             margin-top: 10px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             align-items: center;
+            transition: all 0.3s ease;
+            
+        }
+        &-item:hover {
+            background-color: $main-color;
+            
+            transition: all 0.3s ease;
+            box-shadow:
+                1px 1px $pink,
+                2px 2px $pink,
+                3px 3px $pink,
+                4px 4px $pink,
+                5px 5px $pink;
+            -webkit-transform: translateX(-7px);
+            transform: translateX(-7px);
             
         }
     }

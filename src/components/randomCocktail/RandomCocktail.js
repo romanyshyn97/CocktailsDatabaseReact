@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useCocktailService from '../../services/CocktailService';
-import './randomChar.scss';
+import './randomCocktail.scss';
 
 import cocktail from '../../resources/img/headerCocktail.png';
 
@@ -31,24 +31,27 @@ const RandomCocktail = () => {
     const spinner = loading ? <Spinner/> : null;
     const content = !(loading || error || !drink) ? <ViewPart drink={drink}/> : null;
     return (
-        <div className="randomchar">
+        <div className="random">
             {errorMessage}
             {spinner}
             {content}
-            <div className="randomchar__static">
-                <p className="randomchar__title">
+            <div className="random__static">
+                <p className="random__title">
                     Random cocktail for today!<br/>
-                    Do you want to know ingridients?
+                    Do you want to know ingredients?
                 </p>
-                <p className="randomchar__title">
+                <p className="random__title">
                     Or choose another one
                 </p>
-                <button 
-                    className="button button__main"
-                    onClick={updateDrink}>
-                    <div className="inner">try it</div>
-                </button>
-                <img src={cocktail} alt="cocktail" className="randomchar__decoration"/>
+                <div>
+                    <button 
+                        className="dws"
+                        onClick={updateDrink}>
+                        <div className="butt">try it</div>
+                    </button>
+                </div>
+                
+                <img src={cocktail} alt="cocktail" className="random__decoration"/>
             </div>
         </div>
     )
@@ -56,20 +59,20 @@ const RandomCocktail = () => {
 
 }
 const ViewPart = ({drink}) => {
-    const {strDrink, strDrinkThumb, strInstructions, strIngridients} = drink;
+    const {strDrink, strDrinkThumb, strInstructions, strIngredients} = drink;
     const view = (strInstructions.length > 210) ? strInstructions.slice(0,210) + '...' : strInstructions;
     return (
-            <div className="randomchar__block">
-                <img src={strDrinkThumb} alt="Random character" className="randomchar__img"/>
-                <div className="randomchar__info">
-                    <p className="randomchar__name">{strDrink}</p>
-                    <p className="randomchar__descr">
+            <div className="random__block">
+                <img src={strDrinkThumb} alt="Random character" className="random__img"/>
+                <div className="random__info">
+                    <p className="random__name">{strDrink}</p>
+                    <p className="random__descr">
                        Instruction: 
                        {view}
                     </p>
-                    <p className="randomchar__descr">
-                        Ingridients: 
-                       {strIngridients}
+                    <p className="random__descr">
+                        Ingredients: 
+                       {strIngredients}
                     </p>
                     
             </div>

@@ -1,7 +1,9 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Pagination = ({ drinksPerPage, totalDrinks, paginate }) => {
     const pageNumbers = [];
+    
 
     for (let i=1; i <= Math.ceil(totalDrinks/ drinksPerPage); i++){
         pageNumbers.push(i);
@@ -12,9 +14,10 @@ const Pagination = ({ drinksPerPage, totalDrinks, paginate }) => {
             <ul className="pagination" style={{'marginTop': '20px', 'marginLeft':'15px'}}>
                 {pageNumbers.map(number => (
                     <li key={number} className='page-item '>
-                        <a href="javascript:;" onClick={() => paginate(number)} className="page-link ">
+                        <NavLink to="##" onClick={(e) => {e.preventDefault();
+                        paginate(number)}} className="page-link ">
                             {number}
-                        </a>
+                        </NavLink>
                     </li>
                 ))}
             </ul>

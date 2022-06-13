@@ -14,8 +14,8 @@ const useCocktailService = () => {
         return _transformData(res.drinks[0]);
         
      }
-    const getAlcoCocktail = async () => {
-        const res = await request('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
+    const getAlcoCocktail = async (name) => {
+        const res = await request(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=${name}`);
         return res.drinks;
         // return res2.slice(0, offset);
     }
@@ -37,14 +37,14 @@ const useCocktailService = () => {
     
 
     const _transformData = (drink) => {
-        const ingridients = [];
+        const ingredients = [];
         const measure = [];
         
         for (let i = 1; i <= 15; i++) {
             if (!drink['strIngredient'+i]) {
                 break;
             }
-            ingridients.push(drink['strIngredient'+i])
+            ingredients.push(drink['strIngredient'+i])
         }
         for (let j = 1; j <= 15; j++) {
             if (!drink['strMeasure'+j]) {
@@ -57,7 +57,7 @@ const useCocktailService = () => {
             strDrink: drink.strDrink,
             strInstructions: drink.strInstructions,
             strDrinkThumb: drink.strDrinkThumb,
-            strIngridients: ingridients.join(', '),
+            strIngredients: ingredients.join(', '),
             strMeasure: measure.join(', ')
         }
     }

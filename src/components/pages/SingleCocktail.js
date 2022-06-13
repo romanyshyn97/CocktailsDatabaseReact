@@ -1,21 +1,17 @@
 import { useState } from "react";
 
-import RandomCocktail from "../randomCocktail/RandomCocktail";
-import DrinkList from "../drinkList/DrinkList";
+
+import AppBanner from "../appBanner/AppBanner";
+import ListByIngredient from "../drinksByIngredient/ListByIngredient";
 import DrinkInfo from "../drinkInfo/DrinkInfo";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
-import FilterButtons from "../filterButtons/FilterButtons";
-import '../../style/style.scss'
 
 import decoration from '../../resources/img/decoration.png';
 
-const MainPage = () => {
+const SingleCocktail = (props) => {
     const [selectedDrink, setDrink] = useState(null);
-    const [filter, setFilter] = useState('');
-
-    const onFilterSelect = (filter) => {
-        setFilter(filter);
-    }
+    
+    
 
     const onDrinkSelected = (id) => {
         setDrink(id);
@@ -23,12 +19,11 @@ const MainPage = () => {
     return(
         <>
             <ErrorBoundary>
-                <RandomCocktail/>
+                <AppBanner/>
             </ErrorBoundary>
-            <FilterButtons filter={filter} onFilterSelect={onFilterSelect}/>
-            <div className="list__content">
+            <div className="drink__content">
                 <ErrorBoundary>
-                    <DrinkList onDrinkSelected={onDrinkSelected} filter={filter}/>
+                    <ListByIngredient onDrinkSelected={onDrinkSelected} onIngrSelected={props.onIngrSelected}/>
                 </ErrorBoundary>
                 <ErrorBoundary>
                     <DrinkInfo drinkId={selectedDrink}/>
@@ -39,4 +34,4 @@ const MainPage = () => {
     )
 }
 
-export default MainPage;
+export default SingleCocktail;

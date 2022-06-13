@@ -1,6 +1,6 @@
 @import '../../style/variables.scss';
 
-.randomchar {
+.random {
     display: grid;
     grid-template-columns: repeat(2, 50%);
     align-items: center;
@@ -10,6 +10,9 @@
         display: grid;
         grid-template-columns: 180px auto;
         column-gap: 30px;
+        background-color: $light;
+        
+
     }
     &__img {
         width: 180px;
@@ -29,8 +32,8 @@
         text-transform: uppercase;
     }
     &__descr {
-        font-size: 14px;
-        line-height: 18px;
+        font-size: 18px;
+        line-height: 24px;
     }
     &__btns {
         a:nth-child(1) {
@@ -42,15 +45,15 @@
         background-color: $dark;
         position: relative;
         button {
-            margin-top: 13px;
+            margin-top: 50px;
         }
     }
     &__title {
         font-weight: bold;
         font-size: 24px;
         line-height: 32px;
-        letter-spacing: -0.045em;
-        color: #FFFFFF;
+        letter-spacing: 1px;
+        color: $light;
         &:nth-child(2) {
             margin-top: 33px;
         }
