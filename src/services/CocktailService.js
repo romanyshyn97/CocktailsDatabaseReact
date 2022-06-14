@@ -67,7 +67,7 @@ const useCocktailService = () => {
             strAlcohol: ingr.strAlcohol,
             strIngredient: ingr.strIngredient,
             strType: ingr.strType,
-            strDescription: ingr.strDescription
+            strDescription: ingr.strDescription ? ingr.strDescription : 'Sorry, there is no description for this ingredient('
 
         }
     }

@@ -60,15 +60,14 @@ const RandomCocktail = () => {
 }
 const ViewPart = ({drink}) => {
     const {strDrink, strDrinkThumb, strInstructions, strIngredients} = drink;
-    const view = (strInstructions.length > 210) ? strInstructions.slice(0,210) + '...' : strInstructions;
     return (
             <div className="random__block">
-                <img src={strDrinkThumb} alt="Random character" className="random__img"/>
+                <img src={strDrinkThumb} alt="Random character" className="random__img" />
                 <div className="random__info">
                     <p className="random__name">{strDrink}</p>
                     <p className="random__descr">
                        Instruction: 
-                       {view}
+                       {`${strInstructions.slice(0,150)}...`}
                     </p>
                     <p className="random__descr">
                         Ingredients: 

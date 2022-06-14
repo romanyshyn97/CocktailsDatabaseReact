@@ -25,9 +25,20 @@
             li:hover {
                 
             
-                color: $main-color;
+                color: $pink;
                 
             }
         }
     }
+}
+.img-header{
+    margin: 0 auto;
+    display: block;
+    transition: all 0.5s;
+    &:hover{
+        filter: drop-shadow(0 0 15px $main-color);
+        
+    }
+   
+    
 }

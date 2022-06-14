@@ -40,7 +40,7 @@ const ListByIngredient = (props) => {
 
     return(
         <div>
-            <h1 style={{textAlign: "center"}}>Choose drink with {name}</h1>
+            <h1>Choose drink with {name}</h1>
             <Drinks drinks={currentDrinks} loading={loading} onDrinkSelected={props.onDrinkSelected}  />
             <Pagination 
             drinksPerPage={drinksPerPage} 

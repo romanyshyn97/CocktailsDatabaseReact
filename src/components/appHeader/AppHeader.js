@@ -5,7 +5,7 @@ import title from '../../resources/img/Title.png'
 const AppHeader = () => {
     return (
         <>
-        <Link to="/" style={{margin: "0 auto", display: 'block'}}>
+        <Link to="/" className='img-header'>
             <img src={title} alt="" style={{margin: "0 auto", display: 'block'}} />
         </Link>
             

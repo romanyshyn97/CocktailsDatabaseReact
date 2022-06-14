@@ -7,7 +7,12 @@
         // grid-template-columns: 1100px 425px;
         column-gap: 25px;
         align-items: start;
+        h1{
+            color: $main-color;
+            text-align: center;
+        }
     }
+    
     &__grid {
         display: grid;
         grid-template-columns: repeat(6, 165px);
@@ -39,7 +44,7 @@
         font-size: 22px;
         line-height: 29px;
         text-transform: uppercase;
-        color: #fff;
+        color: $light;
     }
 }
 .btns-selector{

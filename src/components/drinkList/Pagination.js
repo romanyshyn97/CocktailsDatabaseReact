@@ -12,7 +12,7 @@ const Pagination = ({ drinksPerPage, totalDrinks, paginate }) => {
             <ul className="pagination" style={{'marginTop': '20px', 'marginLeft':'15px'}}>
                 {pageNumbers.map(number => (
                     <li key={number} className='page-item '>
-                        <a href="javascript:;" onClick={() => paginate(number)} className="page-link ">
+                        <a href="#" onClick={(e) => {e.preventDefault() ; paginate(number)}} className="page-link ">
                             {number}
                         </a>
                     </li>
