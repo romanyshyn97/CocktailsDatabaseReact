@@ -23,7 +23,7 @@ const MainPage = () => {
     return(
         <>
             <ErrorBoundary>
-                <RandomCocktail/>
+                <RandomCocktail onDrinkSelected={onDrinkSelected}/>
             </ErrorBoundary>
             <FilterButtons filter={filter} onFilterSelect={onFilterSelect}/>
             <div className="list__content">

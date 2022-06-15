@@ -21,7 +21,7 @@ const FilterButtons = (props) => {
     })
 
     return (
-        <div className="btn-group search-panel ">
+        <div className=" search-panel ">
             {buttons}
             {/* <button 
                 className="btn btn-light"
